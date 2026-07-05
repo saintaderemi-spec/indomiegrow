@@ -1,32 +1,28 @@
-name: Parallel Browser Automation Pipeline
-
+name: IndomieGrow Private Engine
 on:
-  workflow_dispatch: # Gives you a manual "Play" button in your GitHub dashboard
-
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
 jobs:
-  orchestrate-browsers:
+  run:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        worker_id: [1, 2, 3] # Boots up 3 distinct cloud servers simultaneously
-
     steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v4
-
-      - name: Initialize Node.js Environment
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - name: Download Proxy Cache
+        uses: dawiddr/action-download-artifact@v2
         with:
-          node-version: '20'
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Install System Dependencies for Playwright
-        run: npx playwright install-deps
-
-      - name: Execute Isolated Automation Task
+          workflow: main.yml
+          name: proxy-cache
+          if_no_artifact_found: warn
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm install puppeteer axios @faker-js/faker
+      - name: Run Engine
         env:
-          WORKER_ID: ${{ matrix.worker_id }}
+          OTP_API_KEY: ${{ secrets.OTP_API_KEY }}
         run: node src/automation-runner.js
+      - name: Upload Proxy Cache
+        uses: actions/upload-artifact@v4
+        with:
+          name: proxy-cache
+          path: src/used_proxies.json
