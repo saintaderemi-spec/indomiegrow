@@ -1,0 +1,9 @@
+{
+  "name": "cloud-automation-pipeline",
+  "version": "1.0.0",
+  "description": "Cloud-native parallel browser engine",
+  "main": "src/automation-runner.js",
+  "dependencies": {
+    "playwright": "^1.44.0"
+  }
+}
