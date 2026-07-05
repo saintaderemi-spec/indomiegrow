@@ -1,9 +1,9 @@
 {
   "name": "cloud-automation-pipeline",
   "version": "1.0.0",
-  "description": "Cloud-native parallel browser engine",
-  "main": "src/automation-runner.js",
   "dependencies": {
-    "playwright": "^1.44.0"
+    "playwright": "^1.44.0",
+    "playwright-extra": "^4.3.0",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
 }
