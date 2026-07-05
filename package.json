@@ -4,6 +4,7 @@
   "dependencies": {
     "playwright": "^1.44.0",
     "playwright-extra": "^4.3.0",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "@supabase/supabase-js": "^2.45.0"
   }
 }
