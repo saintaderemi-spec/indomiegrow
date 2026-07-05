@@ -1,0 +1,32 @@
+name: Parallel Browser Automation Pipeline
+
+on:
+  workflow_dispatch: # Gives you a manual "Play" button in your GitHub dashboard
+
+jobs:
+  orchestrate-browsers:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        worker_id: [1, 2, 3] # Boots up 3 distinct cloud servers simultaneously
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Initialize Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Install System Dependencies for Playwright
+        run: npx playwright install-deps
+
+      - name: Execute Isolated Automation Task
+        env:
+          WORKER_ID: ${{ matrix.worker_id }}
+        run: node src/automation-runner.js
