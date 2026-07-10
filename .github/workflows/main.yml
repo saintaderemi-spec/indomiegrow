@@ -26,3 +26,6 @@ jobs:
         with:
           name: proxy-cache
           path: src/used_proxies.json
+env:
+  ACTIONS_RUNNER_DEBUG: true
+  ACTIONS_STEP_DEBUG: true
